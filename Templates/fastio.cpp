@@ -2,9 +2,8 @@
 
 using namespace std;
 
-//can't read or write float
 namespace IO {
-  //wirte
+  //write
   template<typename T>
   inline void w(T x) { if (x > 9) w(x / 10); putchar(x % 10 + 48); }
   inline void wr(char sep, double f) { cout << f; }
