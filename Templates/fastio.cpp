@@ -1,17 +1,19 @@
 #include <bits/stdc++.h>
-// something wrong
+
 using namespace std;
 
+//sync_with_stdio
 namespace IO {
   //write
   template<typename T>
-  inline void w(T x) { if (x > 9) w(x / 10); putchar(x % 10 + 48); }
-  inline void wr(char sep, double f) { cout << f; }
-  inline void wr(char sep, const string& s) { cout << s; }
-  template<typename T, typename U>
-  inline void wr(char sep, const pair<T, U>& p) { w(p.first); putchar(' '); w(p.second); }
+  inline void wone(T x) { if (x > 9) wone(x / 10); putchar(x % 10 + 48); }
   template<typename T>
-  inline void wr(char sep, T x) { if(x < 0) putchar('-'), x = -x; w(x); }
+  inline void wr(char sep, T x) { if(x < 0) putchar('-'), x = -x; wone(x); }
+  inline void wr(char sep, const char* x) { printf("%s", x); }
+  inline void wr(char sep, double x) { printf("%f", x); }
+  inline void wr(char sep, const string& x) { cout << x; }
+  template<typename T, typename U>
+  inline void wr(char sep, const pair<T, U>& p) { wr(sep, p.first); putchar(' '); wr(sep, p.second); }
   template<typename T>
   inline void wr(char sep, const vector<T>& v) {
     bool first = true;
@@ -42,8 +44,9 @@ namespace IO {
       for (; isdigit(c); c = getchar()) x = (x << 1) + (x << 3) + (c ^ 48);
       x *= f;
   }
-  inline void read(double& f) { cin >> f; }
-  inline void read(string& s) { cin >> s; }
+  inline void read(char* x) { scanf_s("%s", x); }
+  inline void read(double& x) { scanf_s("%lf", &x); }
+  inline void read(string& x) { cin >> x; }
   template<typename T, typename... U>
   void read(T&, U&...);
   template<typename T, typename U>
@@ -57,6 +60,9 @@ namespace IO {
   template<typename T, typename... U>
   void read(T& t, U&... u) { read(t); read(u...); }
   #define ints(...) int __VA_ARGS__; read(__VA_ARGS__);
+  // for c style array, but seldom use I think
+  #define rv(arr, n) for (int i = 0; i < n; ++i) { read(arr[i]); }
+  #define pv(arr, n) { for (int i = 0; i < n; ++i) { if (i > 0) putchar(' '); wr(' ', arr[i]); } putchar('\n'); }  
 }
 using namespace IO;
 
@@ -66,11 +72,17 @@ void test() {
     ints(A, B);
     write(A + B);
   }
+  char s[100];
+  read(s);
+  string S = s;
+  write(s, S);
+  pair<int, int> a[10];
+  rv(a, 3);
+  pv(a, 3);
+
 }
 
 int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(0);
   test();
   return 0;
 }

@@ -36,7 +36,7 @@ ostream& operator<<(ostream& os, const pair<T, U>& p) {
 template<typename T>
 istream& operator>>(istream& is, vector<T>& v) {
   for (auto& i : v) is >> i;
-    return is;
+  return is;
 }
 template<typename T>
 ostream& operator<<(ostream& os, const vector<T>& v) {
