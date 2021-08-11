@@ -4,6 +4,7 @@ vector<int> smallest_factor;
 vector<bool> prime;
 vector<int> primes;
  
+// n * log (log n)
 void sieve(int maximum) {
   maximum = max(maximum, 1);
   smallest_factor.assign(maximum + 1, 0);
@@ -25,7 +26,29 @@ void sieve(int maximum) {
     }
   }
 }
- 
+
+// O(n)
+void linear_sieve(int maximum) {
+  prime.assign(maximum + 1, true);
+  smallest_factor.assign(maximum + 1, 0);
+  prime[0] = prime[1] = false;
+
+  for (int i = 2; i <= maximum; ++i) {
+    if (prime[i]) {
+      primes.push_back(i);
+      smallest_factor[i] = i;
+    }
+
+    for (int j = 0; j < (int) primes.size() and (long long) primes[j] * i <= maximum; ++j) {
+      prime[primes[j] * i] = false;
+      smallest_factor[primes[j] * i] = primes[j];
+      if (i % primes[j] == 0) {
+        break;
+      }
+    }
+  }
+}
+
 // Prime factorizes n in worst case O(sqrt n / log n). Requires having run `sieve` up to at least sqrt(n).
 // If we've run `sieve` up to at least n, takes O(log n) time.
 vector<pair<int64_t, int>> prime_factorize(int64_t n) {
@@ -90,7 +113,7 @@ int get_prime_exponent(int n, bool sieved) {
     while (n % i == 0) {
       sum++;
       n /= i;
-    } 
+    }
   }
   if (n != 1) {
       sum++;
