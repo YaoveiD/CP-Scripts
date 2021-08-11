@@ -4,15 +4,16 @@
 */
 
 const int MOD = 1e9 + 7;
-template<typename T>
-T modpow(T a, T b){
-  T ans = 1;
-  while (b){
-    if (b % 2 == 1){
-      ans = ans * a % MOD;
+long long modpow(long long a, long long b){
+  long long result = 1;
+  
+  while (b) {
+    if (b & 1) {
+      result = result * a % MOD;
     }
     a = a * a % MOD;
     b >>= 1;
   }
-  return ans;
+  
+  return result;
 }
