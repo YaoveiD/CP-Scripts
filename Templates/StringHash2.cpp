@@ -1,3 +1,4 @@
+// copied from neal's submission and modified by me
 typedef unsigned long long hash_t;
  
 const int MAX_TEXT = 1e5 + 5;
