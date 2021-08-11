@@ -1,8 +1,4 @@
-/*
-*  author: yaoveil
-*  date:   2021-06-22 23:18:40
-*/
-//tourist's template
+//https://github.com/the-tourist/algo
 template <typename T>
 T inverse(T a, T m) {
   T u = 0, v = 1;
