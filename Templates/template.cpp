@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
   
