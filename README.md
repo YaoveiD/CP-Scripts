@@ -1,5 +1,5 @@
 # algo-templates
 templates
 
-some wirtten by myself, while some copy from internet.
+some wirtten by myself, while some copied from internet.
 
