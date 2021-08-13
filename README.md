@@ -7,5 +7,6 @@ some wirtten by myself, while some copied from internet.
 
 add export PATH=$PATH:~/scripts/ to your ~/.bashrc
 
-usage stress test expected gen [number_of_tests]
+usage:
+run command `stress test expected generator [number_of_tests]`
 
