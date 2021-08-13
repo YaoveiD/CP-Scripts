@@ -1,0 +1,2 @@
+python3 ~/scripts/cf_sample_runner.py $1 $2
+rm $1
