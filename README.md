@@ -12,6 +12,9 @@ usage:
 1.stress test:
 
   run command `stress test expected generator [number_of_tests]`
+  
+  for example:
+  `stress A Aslow Agen 100`
 
 2.generate contest:
 
