@@ -13,10 +13,13 @@ usage:
 
 2.generate contest:
   runcommand `cf_gen contest_id [problem_letter]`
+  
  for example:
   `cf_gen 1557`
   `cf_gen 1557 ABC`
+
 3.run sample:
   run command `runcase [problem letter]`
+
 for example:
   `runcase A`
