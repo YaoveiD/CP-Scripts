@@ -16,5 +16,5 @@
             "name": "Run Only", 
             "shell_cmd": "x-terminal-emulator  -e bash -c \"'${file_path}/${file_base_name}';rm '${file_base_name}' ; read -p '\nPress ENTER to continue...'\"" 
         } 
-    ] 
+    ]
 } 
