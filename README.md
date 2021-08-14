@@ -18,7 +18,7 @@ usage:
 
 2.generate contest:
 
-  runcommand `cf_gen contest_id [problem_letter]`
+  run command `cf_gen contest_id [problem_letter]`
   
  for example:
   `cf_gen 1557`
