@@ -1,13 +1,19 @@
-#copy it from https://github.com/emilgoldsmith/Codeforces-test-case-parser/blob/master/getTestCases.py
+#copy it from https://github.com/emilgoldsmith/Codeforces-test-case-parser/blob/master/getTestCases.py and modified by me
 #!/usr/bin/python3
 
 from urllib.request import urlopen
-from sys import argv
+from bs4 import BeautifulSoup
 from html.parser import HTMLParser
+from sys import argv
+import requests
 import os
 
-# This parse break should be the same in your run file
-PARSE_BREAK = "END OF THIS TEST\n"
+class COLOR:
+  RED = '\033[31m'
+  GREEN = '\033[32m'
+  ORANGE = '\033[33m'
+  BULE = '\033[34m'
+  END =  '\033[0m'
 
 class problem_parser(HTMLParser):
   def __init__(self):
@@ -37,30 +43,45 @@ class problem_parser(HTMLParser):
 contest_number = argv[1]
 if not os.path.exists(contest_number):
   os.mkdir(contest_number)
-problem_set = "ABCD"               #cause i can only solve no more then 4 problems
-if len(argv) > 2:
-  problem_set = argv[2]
 
+problem_set = []
+if len(argv) > 2:
+  problem_set = argv[2:]
+else:
+  #parse problems' id
+  contest_url = 'http://codeforces.com/contest/' + contest_number
+  html = requests.get(contest_url)
+  soup = BeautifulSoup(html.content, 'html.parser')
+  for p in soup.findAll('td', attrs={'class':"id"}): 
+    for s in p.find('a').stripped_strings:
+        problem_set.append(s)
+  problem_set = problem_set[:4]               #cause i can only solve no more then 4 problems
+
+#parse problems' smaples
 for problem_letter in problem_set:
   url = 'http://codeforces.com/contest/' + contest_number + '/problem/' + problem_letter
   problem = urlopen(url)
   if problem.geturl() != url:
     break
   else:
-    print("Fetching problem", problem_letter)
+    print(COLOR.GREEN + "Fetching problem" + COLOR.GREEN, problem_letter)
+    
     text = problem.read()
     parser = problem_parser()
     parser.feed(text.decode('utf-8'))
+    
     if len(parser.input) != len(parser.output):
-      print("Error with problem", problem_letter)
+      print(COLOR.RED + "Error with problem" + COLOR.RED, problem_letter)
     else:
       sol = open(contest_number + "/" + problem_letter + '.cpp', 'w')
+
       test_number = 1
       for test_case in parser.input:
         inp = open(contest_number + "/" + problem_letter + '.in{}'.format(test_number), 'w')
         inp.write(test_case.strip() + '\n')
         inp.close()
         test_number += 1
+      
       test_number = 1
       for test_case in parser.output:
         out = open(contest_number + "/" + problem_letter + '.out{}'.format(test_number), 'w')
