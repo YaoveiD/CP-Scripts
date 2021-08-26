@@ -65,14 +65,15 @@ public:
 };
 
 template<typename T>
-bool BF(const graph<T>& g, vector<T>& dist) {
+bool BF(const graph<T>& g, vector<T>& dist, int src = 0) {
   int N = g.n;
+  dist[src] = 0;
   for (int i = 0; i <= N; ++i) {
     for (int j = 0; j < (int) g.edges.size(); ++j) {
       int from = g.edges[j].from;
       int to = g.edges[j].to;
       int cost = g.edges[j].cost;
-      if (dist[to] < dist[from] + cost) {
+      if (dist[to] > dist[from] + cost) {
         dist[to] = dist[from] + cost;
         if (i == N) {
           return false;

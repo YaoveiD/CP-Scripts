@@ -157,7 +157,7 @@ U& operator>>(U& stream, Modular<T>& number) {
  
 /*
 using ModType = int;
- 
+
 struct VarMod { static ModType value; };
 ModType VarMod::value;
 ModType& md = VarMod::value;

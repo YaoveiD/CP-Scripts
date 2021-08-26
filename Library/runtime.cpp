@@ -8,12 +8,16 @@
  
 using namespace std;
 
-auto start = chrono::steady_clock::now();
-int tt = 1;
-//cin >> tt;
-while (tt--) {
-  solve();
-}
-auto end = chrono::steady_clock::now();
-auto diff = end - start;
-cout << chrono::duration <double, milli> (diff).count() << " ms" << '\n';
+  auto start = chrono::steady_clock::now();
+
+  int tt = 1;
+  //cin >> tt;
+  while (tt--) {
+    solve();
+  }
+
+  auto end = chrono::steady_clock::now();
+  auto diff = end - start;
+#ifdef LOCAL
+  cerr << chrono::duration <double, milli> (diff).count() << " ms" << '\n';
+#endif 

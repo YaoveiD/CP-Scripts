@@ -3,6 +3,10 @@
 *  date:   2021-06-22 23:13:08
 */
 
+#include <bits/stdc++.h>
+
+using namespace std;
+
 //basic Dsu
 class Dsu {
 public:
@@ -34,9 +38,9 @@ class Dsu {
 public:
   vector<int> p;
   vector<int> sz;
-  int n;
+  int n, component;
 
-  Dsu(int _n) : n(_n) {
+  Dsu(int _n) : n(_n), component(_n) {
     p.resize(n);
     sz.resize(n);
     iota(p.begin(), p.end(), 0);
@@ -51,6 +55,7 @@ public:
     x = get(x);
     y = get(y);
     if (x != y) {
+      component -= 1;
       p[x] = y;
       sz[y] += sz[x];
       return true;
@@ -58,8 +63,13 @@ public:
     return false;
   }
 
-  int size(int par) {
-    return sz[par];
+  inline int size(int x) {
+    x = get(x);
+    return sz[x];
+  }
+
+  inline int get_component() const {
+    return component;
   }
 };
 
