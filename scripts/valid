@@ -20,22 +20,24 @@ g++ -std=c++17 -O2 -Wall -DLOCAL $1.cpp -o $1
 for ((test_num=1;test_num<=$max_tests;test_num++))
 do
     ./$3 > Input
-    ./$2 < Input > Expected
     ./$1 < Input > Output
+    cat Input Output > Data
+    ./$2 < Data > Result
+    result=$(cat Result)
 
-    if !(diff -B -Z Expected Output > diff_buffer)
+    if [ "${result:0:2}" != "OK" ];
     then
-        echo -e "${RED}Wrong answer on test" $test_num"${NC}"  
+        echo -e "${RED}Wrong Answer on test" $test_num "${NC}"  
         echo -e "${BLUE}Input:${NC}"
         cat Input
         echo -e "${BLUE}Output:${NC}"
         cat Output
-        echo -e "${BLUE}Expected:${NC}"
-        cat Expected
-        rm $1 $2 $3 diff_buffer
+        echo -e "${BLUE}Validator result:${NC}"
+        cat Result
+        rm $1 $2 $3
         exit
     fi
 done
 
-echo -e ${GREEN}$max_tests "tests" "Passed"${NC}
-rm $1 $2 $3 diff_buffer
+echo -e ${GREEN}"Passed" $max_tests "tests"${NC}
+rm $1 $2 $3

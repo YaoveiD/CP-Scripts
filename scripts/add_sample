@@ -1,0 +1,14 @@
+problem=$1
+
+if [ $# -eq 2 ]
+then
+    sample_name=$2
+    Input=$problem-$sample_name.in
+    Output=$problem-$sample_name.out
+else
+    Input=$problem.in
+    Output=$problem.out;  
+fi
+
+touch $Input $Output
+subl $Output $Input

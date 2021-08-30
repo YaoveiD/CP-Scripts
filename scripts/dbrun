@@ -1,0 +1,24 @@
+echo Compiling $1.cpp with c++17.
+g++ -std=c++17 -O2 -Wall -DLOCAL $1.cpp -o $1
+
+start=`date +%s.%N`
+
+if [ $# -gt 1 ]
+then
+  if [ $# -eq 2 ]
+  then  
+    echo Input:
+    cat $2
+  fi
+  echo Output:
+  ./$1 < $2
+else
+  echo Input:
+  ./$1
+fi
+
+end=`date +%s.%N`
+runtime=$(echo "($end - $start)*1000" | bc)
+printf "Time: %.0f ms\n" $runtime
+
+rm $1
