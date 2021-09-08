@@ -1,18 +1,6 @@
-#include <algorithm>
-#include <bitset>
-#include <cassert>
-#include <cmath>
-#include <cstring>
-#include <iomanip>
-#include <iostream>
-#include <map>
-#include <queue>
-#include <set>
-#include <vector>
+// verification : https://leetcode-cn.com/problems/ipo/
 
-using namespace std;
-
-const int inf = (int) 1e9 + 123;
+const int INF = (int) 1e9 + 123;
 
 template<typename T>
 class segtree {
@@ -21,121 +9,133 @@ private:
   #define ls (i << 1 | 1)
   #define rs ((i << 1) + 2)
 public:
-  T dummy;
   int N;
   struct node {
-    int l, r;
+    int idx;
     T val;
     //don't forget to set a default value
+
+    void apply(int _val, int _idx) {
+        val = _val;
+        idx = _idx;
+    }
+
+    friend ostream& operator<<(ostream& os, const node& x) {
+        os << x.idx << ' ' << x.val;
+        return os;
+    }
   };
   vector<node> tree;
+  node identify;
 
-  segtree(int n) : dummy(0) {
-    N = 1;
-    while (N < n) {
-      N *= 2;
+  segtree(int n) {
+    identify.val = 0;
+    identify.idx = -1;
+    N = n;
+
+    int _N = 1;
+    while (_N < n) {
+      _N *= 2;
     }
-    tree.resize(2 * N - 1);
+    
+    tree.resize(2 * _N - 1);
     build(0, 0, n - 1);
   }
 
-  segtree(int n, vector<T>& A) : dummy(0) {
-    N = 1;
-    while (N < n) {
-      N *= 2;
+  segtree(int n, vector<T>& A) {
+    identify.val = 0;
+    identify.idx = -1;
+    N = n;
+    
+    int _N = 1;
+    while (_N < n) {
+      _N *= 2;
     }
-    tree.resize(N * 2 - 1);
+    
+    tree.resize(_N * 2 - 1);
     build(0, 0, n - 1, A);
   }
 
-  inline T combine(T A, T B) {
-    return A + B;
+  inline node combine(const node& A, const node& B) {
+    if (A.val > B.val) {
+        return A;
+    } else {
+        return B;
+    }
   }
 
   inline void pull(int i) {
-    tree[i].val = combine(tree[ls].val, tree[rs].val);
+    tree[i] = combine(tree[ls], tree[rs]);
   }
 
   void build(int i, int L, int R, vector<T>& A) {
-    tree[i].l = L;
-    tree[i].r = R;
     if (L == R) {
-      tree[i].val = A[L];
+      tree[i].apply(A[L], L);
       return;
     }
+    
     int mid = L + (R - L) / 2;
+    
     build(ls, L, mid, A);
     build(rs, mid + 1, R, A);
+    
     pull(i);
   }
 
   void build(int i, int L, int R) {
-    tree[i].l = L;
-    tree[i].r = R;
-    tree[i].val = 0;
+    tree[i] = identify;
+    
     if (L == R) {
       return;
     }
+    
     int mid = L + (R - L) / 2;
+    
     build(ls, L, mid);
     build(rs, mid + 1, R);
   }
 
-  T query(int i, int L, int R) {
-    if (tree[i].l > R or tree[i].r < L) {
-      return dummy;
+  node query(int i, int from, int to, int L, int R) {
+    if (to < L or from > R) {
+      return identify;
     }
-    if (tree[i].l >= L and tree[i].r <= R) {
-      return tree[i].val;
+    
+    if (L <= from and to <= R) {
+      return tree[i];
     }
-    return combine(query(ls, L, R), query(rs, L, R));
+    
+    int mid = (from + to) / 2;
+    
+    return combine(query(ls, from, mid, L, R), query(rs, mid + 1, to, L, R));
   }
 
-  T query(int L, int R) {
-    return query(0, L, R);
+  node query(int L, int R) {
+    return query(0, 0, N - 1, L, R);
   }
 
-  void update(int i, int L, int R, T val) {
-    if (tree[i].l > R or tree[i].r < L) {
+  void update(int i, int from, int to, int L, int R, T val) {
+    if (to < L or from > R) {
       return;
     }
-    if (tree[i].l == tree[i].r) {
-      tree[i].val = val; // don't forget to ...
+    
+    if (from == to) {
+      tree[i].apply(val, from); // don't forget to ...
       return;
     }
-    update(ls, L, R, val);
-    update(rs, L, R, val);
+    
+    int mid = (from + to) / 2;
+    
+    update(ls, from, mid, L, R, val);
+    update(rs, mid + 1, to, L, R, val);
+    
     pull(i);
   }
 
   void update(int L, int R, T val) {
-    update(0, L, R, val);
+    update(0, 0, N - 1, L, R, val);
   }
 
   void update(int p, T val) {
-    update(0, p, p, val);
+    update(0, 0 , N - 1, p, p, val);
   }
 };
-
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(0);
-  
-  int N, Q;
-  cin >> N >> Q;
-  vector<long long> A(N);
-  for (int i = 0; i < N; ++i) {
-      cin >> A[i];
-  }
-  segtree<long long> st(N, A);
-  for (int q = 0; q < Q; ++q) {
-      int op, A, B;
-      cin >> op >> A >> B;
-      if (op == 1) {
-          st.update(0, A, B);
-      } else {
-          cout << st.query(0, A, B - 1) << '\n';
-      }
-  }
-  return 0;
-}
