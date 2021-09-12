@@ -23,11 +23,11 @@ struct BFS {
         adj.assign(n, {});
     }
  
-    void add_directional_edge(int a, int b) {
+    inline void add_directional_edge(int a, int b) {
         adj[a].push_back(b);
     }
  
-    void add_bidirectional_edge(int a, int b) {
+    inline void add_bidirectional_edge(int a, int b) {
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
@@ -40,7 +40,7 @@ struct BFS {
         }
     }
  
-    void bfs(const vector<int> &source) {
+    void bfs(const vector<int> &source, int stop = -1) {
         if (n == 0) return;
  
         queue<int> q;
@@ -50,11 +50,14 @@ struct BFS {
         for (int src : source)
             bfs_check(q, src, -1, 0);
  
-        while (!q.empty()) {
+         while (!q.empty()) {
             int top = q.front(); q.pop();
  
-            for (int neigh : adj[top]) {
-                bfs_check(q, neigh, top, dist[top] + 1);
+            if (top == stop)
+                return;
+
+            for (int next_node : adj[top]) {
+                bfs_check(q, next_node, top, dist[top] + 1);
             }
         }
     }
