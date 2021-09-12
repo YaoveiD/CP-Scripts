@@ -1,12 +1,19 @@
+// source : codeforces neal
+// verification : https://atcoder.jp/contests/abc218/submissions/25806818
 
-const int INF = int(1e9) + 5;
- 
+const int INF = (int) 1e9 + 5;
+
 struct BFS {
     int n;
     vector<vector<int>> adj;
     vector<int> dist;
     vector<int> parent;
  
+    BFS(int _n, const vector<vector<int>>& _adj) : adj(_adj) {
+        n = _n;
+        assert(_n == (int) _adj.size());
+    }
+
     BFS(int _n = 0) {
         init(_n);
     }
@@ -46,8 +53,10 @@ struct BFS {
         while (!q.empty()) {
             int top = q.front(); q.pop();
  
-            for (int neigh : adj[top])
+            for (int neigh : adj[top]) {
                 bfs_check(q, neigh, top, dist[top] + 1);
+            }
         }
     }
 };
+
