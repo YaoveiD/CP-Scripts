@@ -44,7 +44,7 @@ void dijkstra(vector<vector<pair<int, T>>>& edge, vector<T>& dis, int start = 0)
       int v = e.first;
       if (dis[u] + e.second < dis[v]) {
         dis[v] = dis[u] + e.second;
-        pq.emplace(v, dis[v]);
+        pq.emplace(dis[v], v);
       }
     }
   }

@@ -3,8 +3,10 @@
 *  date:   2021-06-22 23:19:13
 */
 
-const int MOD = 1e9 + 7;
+constexpr int MOD = (int)1e9 + 7;
 long long modpow(long long a, long long b){
+  assert(b >= 0);
+
   long long result = 1;
   
   while (b) {

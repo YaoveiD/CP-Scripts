@@ -108,6 +108,10 @@ public:
     return result;
   }
 
+  friend string to_string(const _mod_int& m) {
+    return to_string(m.val);
+  }
+
   friend ostream& operator<<(ostream& os, const _mod_int& m) {
     return os << m.val;
   }

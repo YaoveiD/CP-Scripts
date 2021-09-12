@@ -1,13 +1,10 @@
-#include <bits/stdc++.h>
-
-using namespace std;
 
 namespace IO {
   //write
   template<typename T>
   inline void _wr(const T& x) { cout << x; }
   template<typename T, typename U>
-  inline void _wr(const pair<T, U>& p) { wr(p.first); cout << ' '; wr(p.second); }
+  inline void _wr(const pair<T, U>& p) { _wr(p.first); cout << ' '; _wr(p.second); }
   template<typename T>
   inline void _wr(const vector<T>& v) {
     bool first = true;
@@ -52,15 +49,3 @@ namespace IO {
   #define rv(arr, n) for (int i = 0; i < n; ++i) { re(arr[i]); }
 }
 using namespace IO;
-
-void test() {
-  
-}
-
-int main() {
-  ints(tt);
-  while (tt--) {
-    test();
-  }
-  return 0;
-}

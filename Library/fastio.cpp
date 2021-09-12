@@ -1,8 +1,6 @@
-#include <bits/stdc++.h>
 
-using namespace std;
-
-//sync_with_stdio
+// sync_with_stdio
+// string and char* perform worse
 namespace IO {
   //write
   template<typename T>
@@ -39,10 +37,10 @@ namespace IO {
   //read
   template<typename T>
   inline void read(T& x) {
-      x = 0; T f = 1; char c = getchar();
-      for (; !isdigit(c); c = getchar()) if (c == '-') f = -1;
-      for (; isdigit(c); c = getchar()) x = (x << 1) + (x << 3) + (c ^ 48);
-      x *= f;
+    x = 0; T f = 1; char c = getchar();
+    for (; !isdigit(c); c = getchar()) if (c == '-') f = -1;
+    for (; isdigit(c); c = getchar()) x = (x << 1) + (x << 3) + (c ^ 48);
+    x *= f;
   }
   inline void read(char* x) { scanf("%s", x); }
   inline void read(double& x) { scanf("%lf", &x); }
@@ -65,24 +63,3 @@ namespace IO {
   #define pv(arr, n) { for (int i = 0; i < n; ++i) { if (i > 0) putchar(' '); wr(' ', arr[i]); } putchar('\n'); }  
 }
 using namespace IO;
-
-void test() {
-  ints(tt);
-  while (tt--) {
-    ints(A, B);
-    write(A + B);
-  }
-  char s[100];
-  read(s);
-  string S = s;
-  write(s, S);
-  pair<int, int> a[10];
-  rv(a, 3);
-  pv(a, 3);
-
-}
-
-int main() {
-  test();
-  return 0;
-}

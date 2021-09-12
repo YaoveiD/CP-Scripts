@@ -1,4 +1,8 @@
 #include <bits/stdc++.h>
+
+#pragma GCC optimize("O3")
+#pragma GCC target("sse4")
+#pragma GCC optimize("unroll-loops")
  
 using namespace std;
 
@@ -90,10 +94,10 @@ constexpr int pct(int x) {
 constexpr int bits(int x) {
   return x == 0 ? 0 : 31-__builtin_clz(x);
 } // floor(log2(x)) 
-LL cdiv(LL a, LL b) {
+int64_t cdiv(int64_t a, int64_t b) {
   return a/b + ((a^b)>0 && a%b);
 } // divide a by b rounded up
-LL fdiv(LL a, LL b) {
+int64_t fdiv(int64_t a, int64_t b) {
   return a/b - ((a^b)<0 && a%b);
 } // divide a by b rounded down
 
@@ -130,7 +134,7 @@ int main() {
 
   int tt = 1;
   //cin >> tt;
-  while(tt--) {
+  while (tt--) {
     solve();
   }
 
