@@ -1,0 +1,63 @@
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+if [ $# -eq 1 ]
+then
+  echo Compiling $1.cpp with c++17...
+  g++ -std=c++17 -O2 -Wall -DLOCAL $1.cpp -o $1
+else
+  echo Running python3 $1.py
+fi
+
+problem=$1
+i=0
+passed=0
+
+for Input in *.in
+do  
+  i=$((i+1))
+  
+  test_case=${Input%.in}
+  Output=$test_case.out
+
+  start=`date +%s.%N`
+  
+  if [ $# -eq 1 ]
+  then
+    ./$1 < $Input > out_buffer
+  else
+    python3 $1.py < $Input > out_buffer
+  fi
+  
+  end=`date +%s.%N`
+  runtime=$(echo "($end - $start)*1000" | bc)
+
+  echo -e "${ORANGE}Case #$i:${NC}"
+  echo "Runing with $Input"
+  printf "Time: %.0f ms\n" $runtime
+  echo "-------------------------"
+
+  if !(diff -B -Z out_buffer $Output > /dev/null)
+  then
+      echo -e "${RED}Wrong answer on test $i${NC}\n"
+  else
+      echo -e "${GREEN}Passed!${NC}\n"
+      passed=$((passed+1))
+  fi
+done
+
+if [ $passed -eq $i ]
+then
+  echo -e "${GREEN}$passed / $i tests Passed${NC}"
+else
+  echo -e "${RED}$passed / $i tests Passed${NC}"
+fi
+
+rm out_buffer
+if [ $# -eq 1 ]
+then
+  rm $1
+fi
