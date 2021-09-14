@@ -30,14 +30,15 @@ usage:
 
 for example:
   `runcase A`
-  
+
+#not implemented by me
 4. listen_contest:
   
-  just run `listen_contest` in a contest dir
+  just run `listen_contest [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun]` in a contest dir
   
 5. listen_problem:
   
-  just run `listen_problem` in a contest dir
+  just run `listen_smaple [name]` in a contest dir
   
 6.
   
