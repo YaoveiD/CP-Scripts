@@ -36,12 +36,12 @@ def listen_once(*, timeout=None):
             nonlocal json_data
             json_data = json.load(self.rfile)
 
-    with http.server.HTTPServer(('127.0.0.1', 10046), CompetitiveCompanionHandler) as server:
+    with http.server.HTTPServer(('127.0.0.1', 10043), CompetitiveCompanionHandler) as server:
         server.timeout = timeout
         server.handle_request()
 
     if json_data is not None:
-        print(f"Got data {json.dumps(json_data)}")
+        print("Listen Done!")
     else:
         print("Got no data")
     return json_data
@@ -84,12 +84,6 @@ def listen_many(*, num_items=None, num_batches=None, timeout=None):
 NAME_PATTERN = re.compile(r'^(?:Problem )?([A-Z][0-9]*)\b')
 
 def get_prob_name(data):
-    if 'USACO' in data['group']:
-        if 'fileName' in data['input']:
-            names = [data['input']['fileName'].rstrip('.in'), data['output']['fileName'].rstrip('.out')]
-            if len(set(names)) == 1:
-                return names[0]
-
     if 'url' in data and data['url'].startswith('https://www.codechef.com'):
         return data['url'].rstrip('/').rsplit('/')[-1]
 
@@ -100,14 +94,14 @@ def get_prob_name(data):
     print(f"For data: {json.dumps(data, indent=2)}")
     return input("What name to give? ")
 
-def save_samples(data, prob_dir):
+def save_samples(data, prob_dir, prob_name):
     with open(prob_dir / 'problem.json', 'w') as f:
         json.dump(data, f)
 
     for i, t in enumerate(data['tests'], start=1):
-        with open(prob_dir / f'sample{i}.in', 'w') as f:
+        with open(prob_dir / f'{prob_name}-{i}.in', 'w') as f:
             f.write(t['input'])
-        with open(prob_dir / f'sample{i}.out', 'w') as f:
+        with open(prob_dir / f'{prob_name}-{i}.out', 'w') as f:
             f.write(t['output'])
 
 # Providing name = '.'
@@ -115,28 +109,11 @@ def make_prob(data, name=None):
     if name is None:
         name = get_prob_name(data)
 
-    prob_dir = Path('.')/name
+    prob_dir = Path('.')
 
-    if name == '.':
-        print("Using current directory...")
-        pass
-    elif prob_dir.exists() and prob_dir.is_dir():
-        # Skip making it
-        print(f"Already created problem {name}...")
-    else:
-        print(f"Creating problem {name}...")
-
-        MAKE_PROB = Path(sys.path[0]) / 'make_prob.sh'
-        try:
-            subprocess.check_call([MAKE_PROB, name], stdout=sys.stdout, stderr=sys.stderr)
-        except subprocess.CalledProcessError as e:
-            print(f"Got error {e}")
-            return
-
-    print("Saving samples...")
-    save_samples(data, prob_dir)
-
-    print()
+    print(f'Problem {name} Saving samples...')
+    save_samples(data, prob_dir, name)
+    print('Done!')
 
 def main():
     arguments = docopt(__doc__)

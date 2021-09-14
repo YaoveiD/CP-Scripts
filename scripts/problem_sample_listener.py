@@ -104,6 +104,9 @@ def main():
     if names := arguments['<name>']:
         print(names)
         data = listen_once()
+        run_make_prob(data, names[0])
+    else:
+        data = listen_once()
         run_make_prob(data)
 
 if __name__ == '__main__':
