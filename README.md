@@ -22,7 +22,7 @@ usage:
   
  for example:
   `cf_gen 1557`
-  `cf_gen 1557 ABC`
+  `cf_gen 1557 A B C`
 
 3.run sample:
 
@@ -30,3 +30,15 @@ usage:
 
 for example:
   `runcase A`
+  
+4. listen_contest:
+  
+  just run `listen_contest` in a contest dir
+  
+5. listen_problem:
+  
+  just run `listen_problem` in a contest dir
+  
+6.
+  
+  various.. I don't even remember.
