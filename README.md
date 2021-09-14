@@ -31,7 +31,8 @@ usage:
 for example:
   `runcase A`
 
-#not implemented by me
+4 and 5 source : https://gist.github.com/ecnerwala/ffc9b8c3f61e87ca043393a135d7794d
+
 4. listen_contest:
   
   just run `listen_contest [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun]` in a contest dir
