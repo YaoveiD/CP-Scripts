@@ -5,17 +5,14 @@
 
 Usage:
   download_prob.py --echo
-  download_prob.py [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun]
+  download_prob.py [<name>] [--dryrun] [--cpp]
 
 Options:
   -h --help     Show this screen.
   --echo        Just echo received responses and exit.
   --dryrun      Don't actually create any problems
+  --cpp         Generate cpp file
 
-Download limit options:
-  -n COUNT, --number COUNT   Number of problems.
-  -b COUNT, --batches COUNT  Number of batches. (Default 1 batch)
-  -t TIME, --timeout TIME    Timeout for listening to problems. in seconds
 """
 
 from docopt import docopt
@@ -26,6 +23,7 @@ import json
 from pathlib import Path
 import subprocess
 import re
+import os
 
 # Returns unmarshalled or None
 def listen_once(*, timeout=None):
@@ -77,11 +75,17 @@ def save_samples(data, prob_dir, prob_name):
             f.write(t['output'])
 
 # Providing name = '.'
-def make_prob(data, name=None):
+def make_prob(cpp, data, name=None):
     if name is None:
         name = get_prob_name(data)
 
     prob_dir = Path('.')
+
+    if cpp:
+        print('[CPP MODE] Generating cpp file')
+        sol = open(f'{name}.cpp', 'a')
+        os.system(f'subl {name}.cpp')
+        print('cpp file generated')
 
     print("Saving samples...")
     save_samples(data, prob_dir, name)
@@ -92,19 +96,19 @@ def main():
     arguments = docopt(__doc__)
 
     dryrun = arguments['--dryrun']
+    cpp = arguments['--cpp']
     def run_make_prob(*args, **kwargs):
         nonlocal dryrun
+        nonlocal cpp
         if dryrun:
             print("[dryrun mode]")
             print(f"make_prob(*args={args}, **kwargs={kwargs})")
             return
-        make_prob(*args, **kwargs)
+        make_prob(cpp, *args, **kwargs)
 
-    #kind of wired, I just want to listen onece
-    if names := arguments['<name>']:
-        print(names)
+    if name := arguments['<name>']:
         data = listen_once()
-        run_make_prob(data, names[0])
+        run_make_prob(data, name)
     else:
         data = listen_once()
         run_make_prob(data)

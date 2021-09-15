@@ -5,12 +5,13 @@
 
 Usage:
   download_prob.py --echo
-  download_prob.py [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun]
+  download_prob.py [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun] [--cpp]
 
 Options:
   -h --help     Show this screen.
   --echo        Just echo received responses and exit.
   --dryrun      Don't actually create any problems
+  --cpp         Generate cpp file
 
 Download limit options:
   -n COUNT, --number COUNT   Number of problems.
@@ -26,6 +27,7 @@ import json
 from pathlib import Path
 import subprocess
 import re
+import os
 
 # Returns unmarshalled or None
 def listen_once(*, timeout=None):
@@ -105,15 +107,21 @@ def save_samples(data, prob_dir, prob_name):
             f.write(t['output'])
 
 # Providing name = '.'
-def make_prob(data, name=None):
+def make_prob(cpp, data, name=None):
     if name is None:
         name = get_prob_name(data)
 
     prob_dir = Path('.')
 
-    print(f'Problem {name} Saving samples...')
+    if cpp:
+        print(f'[CPP MODE] Generating {name}.cpp')
+        sol = open(f'{name}.cpp', 'a')
+        os.system(f'subl {name}.cpp')
+        print(f'{name}.cpp generated')
+
+    print("Saving samples...")
     save_samples(data, prob_dir, name)
-    print('Done!')
+    print("Saving samples Done!")
 
 def main():
     arguments = docopt(__doc__)
@@ -123,12 +131,14 @@ def main():
             print(listen_once())
     else:
         dryrun = arguments['--dryrun']
+        cpp = arguments['--cpp']
         def run_make_prob(*args, **kwargs):
             nonlocal dryrun
+            nonlocal cpp
             if dryrun:
                 print(f"make_prob(*args={args}, **kwargs={kwargs})")
                 return
-            make_prob(*args, **kwargs)
+            make_prob(cpp, *args, **kwargs)
 
         if names := arguments['<name>']:
             datas = listen_many(num_items=len(names))
