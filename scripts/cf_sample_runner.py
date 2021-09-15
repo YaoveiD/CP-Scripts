@@ -1,4 +1,6 @@
 #also from https://github.com/emilgoldsmith/Codeforces-test-case-parser/blob/master/run.py
+#using runcase instead
+
 from sys import argv
 from subprocess import run, PIPE
 from time import time
