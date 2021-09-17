@@ -18,7 +18,7 @@ usage:
 
 2.generate contest:
 
-  run command `cf_gen contest_id [problem_letter]`
+  run command `cf_gen contest_id [problem_letter ...]`
   
  for example:
   `cf_gen 1557`
@@ -26,7 +26,7 @@ usage:
 
 3.run sample:
 
-  run command `runcase problem letter`
+  run command `runcase name`
 
 for example:
   `runcase A`
@@ -35,11 +35,11 @@ for example:
 
 4. listen_contest:
   
-  just run `listen_contest [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun]` in a contest dir
+  just run `listen_contest [<name>... | -n <number> | -b <batches> | --timeout <timeout>] [--dryrun] [--cpp]` in a contest dir
   
 5. listen_problem:
   
-  just run `listen_smaple [name]` in a contest dir
+  just run `listen_smaple [name] [--cpp]` in a contest dir
   
 6.
   
