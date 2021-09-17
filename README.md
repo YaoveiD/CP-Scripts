@@ -26,7 +26,7 @@ usage:
 
 3.run sample:
 
-  run command `runcase [problem letter]`
+  run command `runcase problem letter`
 
 for example:
   `runcase A`
