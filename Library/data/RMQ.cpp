@@ -38,6 +38,7 @@ struct RMQ {
     }
  
     // Note: breaks ties by choosing the largest index.
+    // [a, b)
     int query_index(int a, int b) const {
         assert(0 <= a && a < b && b <= n);
         int level = largest_bit(b - a);
