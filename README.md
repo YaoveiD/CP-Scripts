@@ -1,10 +1,3 @@
-I have a new repository now, https://github.com/YaoveiD/CP-Library
-
-# templates
-templates
-
-some wirtten by myself, while some copied from internet.
-
 # scripts
 
 add `export PATH=$PATH:~/scripts/` to your ~/.bashrc
