@@ -1,6 +1,6 @@
 # scripts
 
-add `export PATH=$PATH:~/scripts/` in your ~/.bashrc
+add `export PATH=$PATH:you_path_to_this_dir` into your ~/.bashrc
 
 usage:
 
